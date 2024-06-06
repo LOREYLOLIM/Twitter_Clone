@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Twitter;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     //
     public function index(){
-        $users = [
-           [
-            'name'=>'Alex',
-            'age'=>30,
-           ],
-           [
-            'name'=>'Dan',
-            'age'=>25,
-           ],
-           [
-            'name'=>'John',
-            'age'=>17,
-           ]
-        ];
-        return view('dashboard', ['users'=>$users]);
+        $twitter = new Twitter([
+            'content'=>'hello Twitter',
+        ]);
+        $twitter->save();
+        // dump(Twitter::all());
+        return view('dashboard', [
+            'twitter' => Twitter::orderBy('created_at', 'DESC')->get()
+        ]);
     }
 }
